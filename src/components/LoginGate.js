@@ -14,6 +14,100 @@ export default function LoginGate({ onLoginSuccess }) {
   const containerRef = useRef(null);
   const overlayRef = useRef(null);
   const bubblesContainerRef = useRef(null);
+  const fishContainerRef = useRef(null);
+
+  // Generate floating silhouette fish inside the login gate
+  useEffect(() => {
+    const fishContainer = fishContainerRef.current;
+    if (!fishContainer) return;
+
+    const numFish = 6;
+    const fishElements = [];
+
+    for (let i = 0; i < numFish; i++) {
+      const fishSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      fishSvg.setAttribute("viewBox", "0 0 120 60");
+      fishSvg.setAttribute("class", styles.loginSilhouetteFish);
+      
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", "M20,30 C35,15 65,10 85,25 C95,20 105,15 110,22 C105,30 105,30 110,38 C105,45 95,40 85,35 C65,50 35,45 20,30 Z");
+      path.setAttribute("fill", "rgba(174, 230, 220, 0.12)");
+      path.setAttribute("stroke", "rgba(174, 230, 220, 0.3)");
+      path.setAttribute("stroke-width", "1");
+      fishSvg.appendChild(path);
+
+      // Tail fin
+      const tail = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      tail.setAttribute("d", "M18,30 L3,12 C0,20 0,40 3,48 Z");
+      tail.setAttribute("fill", "rgba(174, 230, 220, 0.22)");
+      tail.setAttribute("stroke", "rgba(174, 230, 220, 0.3)");
+      tail.setAttribute("stroke-width", "1");
+      fishSvg.appendChild(tail);
+
+      const size = 60 + Math.random() * 60;
+      fishSvg.style.width = `${size}px`;
+      fishSvg.style.height = `${size / 2}px`;
+      
+      fishContainer.appendChild(fishSvg);
+      fishElements.push({ element: fishSvg, size });
+    }
+
+    const fishCtx = gsap.context(() => {
+      fishElements.forEach(({ element, size }) => {
+        // Random swim parameters
+        const startLeft = Math.random() > 0.5;
+        const xStart = startLeft ? -size - 20 : window.innerWidth + 20;
+        const xEnd = startLeft ? window.innerWidth + size + 20 : -size - 20;
+        const scaleX = startLeft ? 1 : -1;
+        
+        const swim = () => {
+          const yPos = 50 + Math.random() * (window.innerHeight - 150);
+          const duration = 12 + Math.random() * 14;
+          const delay = Math.random() * 5;
+
+          gsap.fromTo(element, 
+            { x: xStart, y: yPos, scaleX: scaleX, opacity: 0 },
+            { 
+              x: xEnd,
+              y: yPos + (Math.random() * 100 - 50),
+              opacity: 0.7,
+              duration: duration,
+              delay: delay,
+              ease: "sine.inOut",
+              onComplete: () => {
+                // Repeat with new random values
+                swim();
+              }
+            }
+          );
+          
+          // Subtle tail wiggling
+          const tailFin = element.lastChild;
+          if (tailFin) {
+            gsap.to(tailFin, {
+              rotate: 15,
+              transformOrigin: "left center",
+              repeat: -1,
+              yoyo: true,
+              duration: 0.2 + Math.random() * 0.2,
+              ease: "sine.inOut"
+            });
+          }
+        };
+
+        swim();
+      });
+    }, fishContainer);
+
+    return () => {
+      fishCtx.revert();
+      fishElements.forEach(({ element }) => {
+        if (fishContainer.contains(element)) {
+          fishContainer.removeChild(element);
+        }
+      });
+    };
+  }, []);
 
   // Generate floating bubbles inside the login gate
   useEffect(() => {
@@ -138,6 +232,7 @@ export default function LoginGate({ onLoginSuccess }) {
   return (
     <div ref={overlayRef} className={styles.loginOverlay}>
       <div ref={bubblesContainerRef} className={styles.ambientBubbles}></div>
+      <div ref={fishContainerRef} className={styles.ambientFish}></div>
       
       <div ref={containerRef} className={`${styles.loginContainer} glass-card`}>
         <h1 className={styles.loginTitle}>THE FLOW</h1>

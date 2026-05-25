@@ -154,3 +154,50 @@
     padding: 0 10px;
   }
 }
+
+.schoolFishContainer {
+  position: absolute;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.85;
+  filter: drop-shadow(0 2px 4px rgba(15, 60, 90, 0.08));
+  will-change: transform;
+}
+
+.foodParticle {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle, var(--color-goldfish) 0%, var(--color-coral) 60%, rgba(255,255,255,0) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 12px var(--color-coral), 0 0 4px white;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+}
+
+.kelpForest {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 250px;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.85;
+}
+
+.kelp {
+  width: 50px;
+  height: 100%;
+  will-change: transform;
+}
+
+.kelp1 { height: 180px; }
+.kelp2 { height: 240px; }
+.kelp3 { height: 210px; }
+.kelp4 { height: 250px; }

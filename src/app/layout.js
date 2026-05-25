@@ -26,15 +26,16 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${outfit.variable} ${playfair.variable}`}>
+    <html lang="en" className={`${outfit.variable} ${playfair.variable}`} suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
-      <body>
-        {/* Floating background ambient currents */}
+      <body suppressHydrationWarning>
+        {/* Floating background ambient currents & caustics */}
         <div className="ambient-bg">
           <div className="wave-element wave-1"></div>
           <div className="wave-element wave-2"></div>
+          <div className="underwater-caustics"></div>
         </div>
         {children}
       </body>

@@ -36,6 +36,27 @@
   background: radial-gradient(circle at top left, hsl(174, 30%, 92%) 0%, hsl(192, 40%, 96%) 100%);
 }
 
+/* Custom panel theme for dark abyssal depth */
+.panel3 {
+  background: linear-gradient(180deg, hsl(212, 60%, 12%) 0%, var(--color-deep-bg) 100%) !important;
+}
+
+.panel3 .panelTitle,
+.panel3 .statVal {
+  color: white !important;
+  text-shadow: 0 0 15px rgba(174, 230, 220, 0.5);
+}
+
+.panel3 .panelDesc,
+.panel3 .statLabel {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.panel3 .panelNumber {
+  color: rgba(255, 255, 255, 0.08) !important;
+  border-bottom-color: var(--color-glow-blue) !important;
+}
+
 .panelContent {
   width: 100%;
   max-width: 1000px;
@@ -175,4 +196,88 @@
   .panelRight {
     padding: 30px 20px;
   }
+}
+
+/* Biome 1: Salmon Stream */
+.salmonStream {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.salmon {
+  position: absolute;
+  width: 90px;
+  height: 40px;
+  pointer-events: none;
+  opacity: 0.18;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.06));
+  will-change: transform;
+}
+
+.salmon1 { top: 20%; }
+.salmon2 { top: 45%; }
+.salmon3 { top: 75%; }
+
+/* Biome 2: Minnow School */
+.minnowSchool {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.minnow {
+  position: absolute;
+  width: 25px;
+  height: 12px;
+  pointer-events: none;
+  opacity: 0.65;
+  filter: drop-shadow(0 0 6px var(--color-glow-blue));
+  will-change: transform;
+}
+
+/* Biome 3: Deep Abyss */
+.deepAbyss {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.jellyfish {
+  position: absolute;
+  width: 60px;
+  height: 120px;
+  pointer-events: none;
+  opacity: 0.45;
+  filter: drop-shadow(0 0 10px var(--color-glow-blue));
+  will-change: transform;
+}
+
+.jelly1 { left: 15%; }
+.jelly2 { left: 45%; }
+
+.anglerFish {
+  position: absolute;
+  width: 130px;
+  height: 100px;
+  pointer-events: none;
+  opacity: 0.35;
+  right: 15%;
+  filter: drop-shadow(0 0 15px rgba(174, 230, 220, 0.3));
+  will-change: transform;
 }
