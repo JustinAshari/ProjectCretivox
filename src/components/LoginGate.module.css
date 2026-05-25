@@ -230,3 +230,38 @@
   filter: drop-shadow(0 4px 8px rgba(15, 60, 90, 0.04));
   will-change: transform, opacity;
 }
+
+.passwordWrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.passwordWrapper .inputField {
+  padding-right: 48px;
+}
+
+.passwordToggleBtn {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  color: var(--color-marine-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  transition: color 0.2s ease, transform 0.2s ease;
+  z-index: 2;
+}
+
+.passwordToggleBtn:hover {
+  color: var(--color-turquoise);
+  transform: scale(1.08);
+}
+
+.passwordToggleBtn:active {
+  transform: scale(0.95);
+}
