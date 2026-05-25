@@ -1,142 +1,88 @@
-.page {
-  --background: #fafafa;
-  --foreground: #fff;
+/* src/app/page.module.css */
 
-  --text-primary: #000;
-  --text-secondary: #666;
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
-
+.mainLayout {
+  position: relative;
+  width: 100vw;
   display: flex;
-  flex: 1;
   flex-direction: column;
+}
+
+/* Premium Aquatic Footer */
+.aquaticFooter {
+  position: relative;
+  width: 100vw;
+  background: radial-gradient(circle at top right, hsl(192, 40%, 93%) 0%, hsl(200, 50%, 97%) 100%);
+  padding: 120px 40px 60px 40px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-geist-sans);
-  background-color: var(--background);
+  z-index: 10;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.4);
+  overflow: hidden;
 }
 
-.main {
-  display: flex;
-  flex: 1;
+.footerContent {
   width: 100%;
-  max-width: 800px;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  background-color: var(--foreground);
-  padding: 120px 60px;
-}
-
-.intro {
+  max-width: 1100px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  gap: 24px;
+  align-items: center;
+  text-align: center;
 }
 
-.intro h1 {
-  max-width: 320px;
-  font-size: 40px;
+.footerTitle {
+  font-family: var(--font-serif), serif;
+  font-size: 4.2rem;
   font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
+  color: var(--color-marine);
+  margin-bottom: 24px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
-.intro p {
-  max-width: 440px;
-  font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
-  color: var(--text-secondary);
+.footerDesc {
+  font-size: 1.15rem;
+  color: var(--color-marine-muted);
+  max-width: 600px;
+  line-height: 1.7;
+  margin-bottom: 80px;
 }
 
-.intro a {
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.ctas {
-  display: flex;
-  flex-direction: row;
+.footerCreds {
   width: 100%;
-  max-width: 440px;
-  gap: 16px;
-  font-size: 14px;
-}
-
-.ctas a {
+  padding-top: 40px;
+  border-top: 1.5px solid rgba(15, 60, 90, 0.06);
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
-  transition: 0.2s;
-  cursor: pointer;
-  width: fit-content;
-  font-weight: 500;
+  gap: 20px;
 }
 
-a.primary {
-  background: var(--text-primary);
-  color: var(--background);
-  gap: 8px;
+.devTag,
+.yearTag {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-marine-muted);
+  letter-spacing: 0.1em;
 }
 
-a.secondary {
-  border-color: var(--button-secondary-border);
+.devTag {
+  color: var(--color-turquoise);
 }
 
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
+@media (max-width: 768px) {
+  .footerTitle {
+    font-size: 2.8rem;
   }
 
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
-}
-
-@media (max-width: 600px) {
-  .main {
-    padding: 48px 24px;
+  .footerDesc {
+    font-size: 1rem;
+    margin-bottom: 60px;
   }
 
-  .intro {
-    gap: 16px;
-  }
-
-  .intro h1 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
-  }
-
-  .page {
-    --background: #000;
-    --foreground: #000;
-
-    --text-primary: #ededed;
-    --text-secondary: #999;
-
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
+  .footerCreds {
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 30px;
   }
 }

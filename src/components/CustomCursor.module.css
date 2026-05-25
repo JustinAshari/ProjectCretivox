@@ -1,0 +1,88 @@
+/* src/components/CustomCursor.module.css */
+
+.cursorContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.cursorRing {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid var(--cursor-color);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: var(--font-outfit), sans-serif;
+  font-weight: 600;
+  font-size: 0px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background-color: transparent;
+  transition: width 0.3s cubic-bezier(0.19, 1, 0.22, 1),
+              height 0.3s cubic-bezier(0.19, 1, 0.22, 1),
+              background-color 0.3s cubic-bezier(0.19, 1, 0.22, 1),
+              border-color 0.3s cubic-bezier(0.19, 1, 0.22, 1),
+              font-size 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  box-shadow: 0 0 10px rgba(174, 230, 220, 0.1);
+  will-change: transform, width, height;
+}
+
+/* Fluid morph class when hovering interactive items */
+.hovered {
+  width: 80px;
+  height: 80px;
+  background-color: rgba(174, 70, 38, 0.08);
+  border-color: rgba(174, 70, 38, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; /* liquid morphing shape */
+  animation: liquid-wiggle 6s ease-in-out infinite alternate;
+}
+
+.hoveredText {
+  font-size: 10px;
+  color: var(--color-marine);
+}
+
+.dotHovered {
+  width: 4px;
+  height: 4px;
+  opacity: 0;
+}
+
+/* Tiny bubble splash spawned on click */
+.bubble {
+  position: absolute;
+  border: 1px solid rgba(174, 230, 220, 0.8);
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 80%);
+  transform: translate(-50%, -50%);
+  z-index: 9998;
+}
+
+@keyframes liquid-wiggle {
+  0% {
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  }
+  100% {
+    border-radius: 70% 30% 50% 50% / 50% 60% 40% 60%;
+  }
+}
+
+/* Hide on touch devices */
+@media (max-width: 1024px) {
+  .cursorContainer {
+    display: none;
+  }
+}

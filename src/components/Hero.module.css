@@ -1,0 +1,156 @@
+/* src/components/Hero.module.css */
+
+.heroWrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 0 40px;
+  background: transparent;
+  z-index: 10;
+}
+
+.glowTracker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(174, 230, 220, 0.25) 0%, rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  filter: blur(20px);
+}
+
+.heroContent {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  max-width: 900px;
+}
+
+.serifTagline {
+  font-family: var(--font-serif), serif;
+  font-style: italic;
+  font-size: 1.6rem;
+  color: var(--color-turquoise);
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.heroTitle {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 5.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--color-marine);
+  letter-spacing: -0.03em;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+}
+
+.heroTitle span {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.heroDescription {
+  font-size: 1.15rem;
+  color: var(--color-marine-muted);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* Floating animated scroll indicator */
+.scrollIndicator {
+  position: absolute;
+  bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-marine-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  z-index: 5;
+  transition: opacity 0.3s ease;
+}
+
+.waterDrop {
+  width: 24px;
+  height: 40px;
+  border: 1.8px solid var(--color-marine-muted);
+  border-radius: 20px;
+  position: relative;
+}
+
+.dropInner {
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-turquoise);
+  border-radius: 50%;
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: drop-flow 1.8s infinite cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+@keyframes drop-flow {
+  0% {
+    top: 8px;
+    opacity: 1;
+    height: 6px;
+  }
+  50% {
+    height: 10px; /* stretching like water drip */
+  }
+  100% {
+    top: 26px;
+    opacity: 0;
+    height: 6px;
+  }
+}
+
+/* The elegant swimming fish */
+.fishContainer {
+  position: absolute;
+  width: 120px;
+  height: 60px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.7;
+}
+
+.bubbleParticle {
+  position: absolute;
+  border: 1px solid rgba(174, 230, 220, 0.4);
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 3.2rem;
+  }
+
+  .serifTagline {
+    font-size: 1.2rem;
+  }
+
+  .heroDescription {
+    font-size: 1rem;
+    padding: 0 10px;
+  }
+}

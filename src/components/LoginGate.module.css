@@ -1,0 +1,213 @@
+/* src/components/LoginGate.module.css */
+
+.loginOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center, hsl(200, 50%, 96%) 0%, hsl(192, 40%, 88%) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  overflow: hidden;
+  transition: clip-path 1.2s cubic-bezier(0.76, 0, 0.24, 1);
+  clip-path: circle(150% at center);
+}
+
+/* Translucent frosted-water glass container */
+.loginContainer {
+  width: 100%;
+  max-width: 440px;
+  padding: 48px 40px;
+  margin: 20px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 10;
+  border-radius: 32px;
+}
+
+.ambientBubbles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.loginTitle {
+  font-family: var(--font-serif), serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--color-marine);
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.loginSubtitle {
+  font-size: 0.95rem;
+  color: var(--color-marine-muted);
+  margin-bottom: 32px;
+  line-height: 1.5;
+}
+
+.formGroup {
+  width: 100%;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 5;
+  text-align: left;
+}
+
+.formLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-marine);
+  margin-bottom: 8px;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding-left: 4px;
+}
+
+.inputField {
+  width: 100%;
+  padding: 14px 20px;
+  font-size: 1rem;
+  color: var(--color-marine);
+  background: rgba(255, 255, 255, 0.4);
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  border-radius: 16px;
+  outline: none;
+  font-family: var(--font-outfit), sans-serif;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 4px rgba(15, 60, 90, 0.02);
+}
+
+.inputField:focus {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: var(--color-turquoise);
+  box-shadow: 0 0 16px rgba(174, 230, 220, 0.4);
+}
+
+/* Red/Coral credentials error card */
+.errorCard {
+  width: 100%;
+  background: rgba(250, 100, 100, 0.08);
+  border: 1px solid rgba(250, 100, 100, 0.3);
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: hsl(0, 70%, 45%);
+  font-size: 0.85rem;
+  margin-bottom: 20px;
+  z-index: 5;
+  text-align: center;
+  font-weight: 500;
+  animation: slide-up 0.3s ease;
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, var(--color-turquoise) 0%, var(--color-seafoam) 100%);
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  z-index: 5;
+  font-family: var(--font-outfit), sans-serif;
+  box-shadow: 0 8px 24px rgba(174, 70, 38, 0.15);
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.submitBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(174, 70, 38, 0.25);
+  filter: brightness(1.05);
+}
+
+.submitBtn:active {
+  transform: translateY(0);
+}
+
+/* Water ripple spinner for login loading */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.hints {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(15, 60, 90, 0.05);
+  width: 100%;
+  z-index: 5;
+}
+
+.hintText {
+  font-size: 0.8rem;
+  color: var(--color-marine-muted);
+  line-height: 1.5;
+}
+
+.hintValue {
+  font-family: monospace;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+/* Animations */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Floating bubble inside overlay */
+.overlayBubble {
+  position: absolute;
+  background: radial-gradient(circle, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 70%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: rise 15s infinite linear;
+}
+
+@keyframes rise {
+  0% {
+    transform: translateY(100vh) scale(0.5);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-20vh) scale(1.2);
+    opacity: 0;
+  }
+}

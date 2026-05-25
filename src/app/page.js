@@ -1,66 +1,124 @@
-import Image from "next/image";
+// src/app/page.js
+"use client";
+
+import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import Lenis from "lenis";
+
 import styles from "./page.module.css";
 
+const CustomCursor = dynamic(() => import("@/components/CustomCursor"), { ssr: false });
+const LoginGate = dynamic(() => import("@/components/LoginGate"), { ssr: false });
+const StatusHeader = dynamic(() => import("@/components/StatusHeader"), { ssr: false });
+const Hero = dynamic(() => import("@/components/Hero"), { ssr: false });
+const FierceGallery = dynamic(() => import("@/components/FierceGallery"), { ssr: false });
+const StoryScroll = dynamic(() => import("@/components/StoryScroll"), { ssr: false });
+
 export default function Home() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [mounted, setMounted] = useState(false);
+
+  // Recover session on mount
+  useEffect(() => {
+    setMounted(true);
+    const token = localStorage.getItem("cretivox_token");
+    const storedUser = localStorage.getItem("cretivox_user");
+
+    if (token && storedUser) {
+      setIsAuthenticated(true);
+      setUserData(JSON.parse(storedUser));
+    }
+  }, []);
+
+  // Initialize Lenis smooth scroll once authenticated
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const lenis = new Lenis({
+      duration: 1.4,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      wheelMultiplier: 1.15,
+    });
+
+    const updateLenis = (time) => {
+      lenis.raf(time * 1000);
+    };
+
+    gsap.ticker.add(updateLenis);
+
+    lenis.on("scroll", ScrollTrigger.update);
+
+    // Sync GSAP ticker with Lenis raf
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      lenis.destroy();
+      gsap.ticker.remove(updateLenis);
+    };
+  }, [isAuthenticated]);
+
+  const handleLoginSuccess = (data) => {
+    setIsAuthenticated(true);
+    setUserData(data);
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setUserData(null);
+  };
+
+  if (!mounted) {
+    return null; // prevent hydration mismatch
+  }
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.js file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      {/* Custom Liquid Cursor */}
+      <CustomCursor />
+
+      {!isAuthenticated ? (
+        /* The gatekeeper interface */
+        <LoginGate onLoginSuccess={handleLoginSuccess} />
+      ) : (
+        /* Main Interactive Layout */
+        <div className={styles.mainLayout}>
+          {/* Status navigation bar */}
+          <StatusHeader userData={userData} onLogout={handleLogout} />
+
+          <main>
+            {/* Hero Section */}
+            <Hero />
+
+            {/* Fierce Photos Gallery */}
+            <FierceGallery />
+
+            {/* Horizontal Storytelling */}
+            <StoryScroll />
+          </main>
+
+          {/* Premium Aquatic Footer */}
+          <footer className={styles.aquaticFooter}>
+            <div className={styles.footerContent}>
+              <h2 className={styles.footerTitle}>Let&apos;s Create Waves.</h2>
+              <p className={styles.footerDesc}>
+                Looking for a creative front-end engineer to build smooth, fluid, and jaw-dropping digital products?
+                Let&apos;s dive in and build something beautiful together.
+              </p>
+              
+              <div className={styles.footerCreds}>
+                <span className={styles.devTag}>DESIGNED & CODED BY EMILY JOHNSON</span>
+                <span className={styles.yearTag}>CRETIVOX ENDURANCE TEST // 2026</span>
+              </div>
+            </div>
+          </footer>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      )}
+    </>
   );
 }

@@ -1,0 +1,147 @@
+/* src/components/StatusHeader.module.css */
+
+.headerWrapper {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 1100px;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 28px;
+  border-radius: 50px;
+  transition: all 0.4s ease;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logoText {
+  font-family: var(--font-serif), serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-marine);
+  letter-spacing: -0.01em;
+}
+
+.logoPulse {
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-turquoise);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--color-turquoise);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(174, 70, 38, 0.4);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(174, 70, 38, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(174, 70, 38, 0);
+  }
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.userInfoCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 16px 4px 6px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.userAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--color-turquoise);
+  background: white;
+  box-shadow: 0 4px 10px rgba(15, 60, 90, 0.05);
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.userName {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-marine);
+}
+
+.userStatus {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--color-turquoise);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.logoutBtn {
+  background: transparent;
+  border: 1.5px solid var(--color-marine);
+  color: var(--color-marine);
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 30px;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+}
+
+.logoutBtn:hover {
+  background: var(--color-marine);
+  color: white;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .headerWrapper {
+    top: 10px;
+    padding: 10px 16px;
+    border-radius: 24px;
+    width: 95%;
+  }
+
+  .logoText {
+    font-size: 1.1rem;
+  }
+
+  .userDetails {
+    display: none;
+  }
+
+  .userInfoCard {
+    padding: 2px;
+    background: transparent;
+    border: none;
+  }
+
+  .logoutBtn {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+  }
+}
