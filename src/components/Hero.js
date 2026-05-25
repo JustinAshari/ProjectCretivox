@@ -81,68 +81,105 @@ export default function Hero() {
 
   // Swimming Fish, Dynamic School & Click Feeding Emitter
   useEffect(() => {
-    const fish = fishRef.current;
-    if (!fish) return;
+    const leaderContainer = fishRef.current;
+    if (!leaderContainer) return;
 
     const wrapper = heroRef.current;
     const fishWidth = 120;
-    
-    // Initial coordinates for primary fish (guaranteed to start on screen)
-    let fishX = 100 + Math.random() * (window.innerWidth - 300);
-    let fishY = 200 + Math.random() * 200;
-    let direction = 1; // 1 = right, -1 = left
-    let speed = 2.5;
     let time = 0;
 
-    gsap.set(fish, { x: fishX, y: fishY, scaleX: direction });
+    // --- Dynamic Parent/Leader Fish Spawning (4 massive parents) ---
+    const numParents = 4;
+    const parentElements = [];
+    const parentColors = [
+      "var(--color-turquoise)", // Cyan/Turquoise parent
+      "var(--color-goldfish)",  // Golden Orange parent
+      "var(--color-coral)",     // Coral/Red parent
+      "var(--color-seafoam)"    // Seafoam Green parent
+    ];
+    const parentFills = [
+      "rgba(174, 230, 220, 0.45)",
+      "rgba(255, 220, 180, 0.45)",
+      "rgba(255, 180, 180, 0.45)",
+      "rgba(180, 245, 220, 0.45)"
+    ];
 
-    // Sway tail fin animation
-    const tailFin = fish.querySelector("#tail-fin");
-    if (tailFin) {
-      gsap.to(tailFin, {
-        rotate: 15,
-        transformOrigin: "left center",
-        repeat: -1,
-        yoyo: true,
-        duration: 0.35,
-        ease: "sine.inOut"
-      });
-    }
-
-    // Sway pectoral fin animation
-    const pecFin = fish.querySelector("#pec-fin");
-    if (pecFin) {
-      gsap.to(pecFin, {
-        rotate: 12,
-        transformOrigin: "top right",
-        repeat: -1,
-        yoyo: true,
-        duration: 0.5,
-        ease: "sine.inOut"
+    for (let i = 0; i < numParents; i++) {
+      const pf = document.createElement("div");
+      pf.className = styles.fishContainer;
+      
+      const pX = 100 + Math.random() * (window.innerWidth - 300);
+      const pY = 150 + Math.random() * (window.innerHeight - 300);
+      const dir = Math.random() > 0.5 ? 1 : -1;
+      const sp = 2.0 + Math.random() * 1.5;
+      
+      const strokeColor = parentColors[i % parentColors.length];
+      const fillColor = parentFills[i % parentFills.length];
+      
+      pf.innerHTML = `
+        <svg viewBox="0 0 120 60" width="100%" height="100%">
+          <!-- Fish Silhouette -->
+          <path
+            d="M20,30 C35,15 65,10 85,25 C95,20 105,15 110,22 C105,30 105,30 110,38 C105,45 95,40 85,35 C65,50 35,45 20,30 Z"
+            fill="rgba(255, 255, 255, 0.45)"
+            stroke="${strokeColor}"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+          />
+          <!-- Tail Fin -->
+          <path
+            class="parent-tail"
+            d="M18,30 L3,12 C0,20 0,40 3,48 Z"
+            fill="${fillColor}"
+            stroke="${strokeColor}"
+            strokeWidth="2"
+          />
+          <!-- Pectoral Fin -->
+          <path
+            class="parent-pec"
+            d="M60,36 C55,42 45,46 45,46 C45,46 50,38 55,34"
+            fill="none"
+            stroke="${strokeColor}"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+          <!-- Fish Eye -->
+          <circle cx="85" cy="24" r="2.5" fill="var(--color-marine)" />
+          <!-- Gills Line -->
+          <path d="M76,22 C73,26 73,32 76,36" fill="none" stroke="${strokeColor}" strokeWidth="1.8" />
+        </svg>
+      `;
+      
+      leaderContainer.appendChild(pf);
+      
+      parentElements.push({
+        element: pf,
+        tail: pf.querySelector(".parent-tail"),
+        pec: pf.querySelector(".parent-pec"),
+        x: pX,
+        y: pY,
+        direction: dir,
+        speed: sp,
+        timeOffset: Math.random() * 100
       });
     }
 
     // --- Dynamic School of Fish Setup ---
-    const numSchool = 24; // Spawns an abundant, vibrant school of 24 fish!
+    const numSchool = 64; // Spawns an abundant, vibrant school of 64 baby fish!
     const schoolElements = [];
-    const schoolColors = [
-      "var(--color-goldfish)",
-      "var(--color-coral)",
-      "var(--color-glow-blue)",
-      "var(--color-neon-yellow)",
-      "var(--color-turquoise)",
-      "var(--color-salmon)"
-    ];
 
     for (let i = 0; i < numSchool; i++) {
       const sf = document.createElement("div");
       sf.className = styles.schoolFishContainer;
       
-      const size = 30 + Math.random() * 18;
+      // Smaller cute baby sizes
+      const size = 15 + Math.random() * 14;
       sf.style.width = `${size}px`;
       sf.style.height = `${size / 2}px`;
       
-      const color = schoolColors[i % schoolColors.length];
+      // Match baby color to its dynamically assigned parent color!
+      const parentIndex = i % numParents;
+      const color = parentColors[parentIndex];
       
       sf.innerHTML = `
         <svg viewBox="0 0 80 40" width="100%" height="100%">
@@ -154,15 +191,17 @@ export default function Hero() {
       
       wrapper.appendChild(sf);
       
+      const parent = parentElements[parentIndex];
+      
       schoolElements.push({
         element: sf,
         tail: sf.querySelector(".school-tail"),
-        x: fishX - 40 - Math.random() * 120,
-        y: fishY + (Math.random() * 100 - 50),
+        x: parent.x - 20 - Math.random() * 80,
+        y: parent.y + (Math.random() * 60 - 30),
         size: size,
-        delayFactor: 0.05 + Math.random() * 0.04,
-        offsetY: (Math.random() * 120 - 60),
-        offsetX: -50 - Math.random() * 150
+        delayFactor: 0.06 + Math.random() * 0.05,
+        offsetY: (Math.random() * 90 - 45), // cluster tightly vertically
+        offsetX: -40 - Math.random() * 100 // cluster tightly behind parent
       });
     }
 
@@ -226,13 +265,13 @@ export default function Hero() {
       };
       activeFoods.push(foodObj);
 
-      // Ripple expand and sink animation (sinks slower and deeper for 8.0 seconds)
+      // Ripple expand and sink animation (sinks slower and deeper for 11.0 seconds)
       gsap.fromTo(food,
         { scale: 0.3, opacity: 1, y: 0 },
         { 
           scale: 1.1, 
-          y: 200, // sink down further to let fish swarm
-          duration: 8.0, 
+          y: 250, // sink down deeper
+          duration: 11.0, 
           ease: "power1.out",
           onUpdate: () => {
             if (foodObj.active) {
@@ -243,11 +282,11 @@ export default function Hero() {
         }
       );
       
-      // Delay before fading out (9.0 seconds from click)
+      // Delay before fading out (11.5 seconds from click, ensuring it stays visible for >10s)
       gsap.to(food, {
         opacity: 0,
-        delay: 9.0,
-        duration: 1.5,
+        delay: 11.5,
+        duration: 2.0,
         onComplete: () => {
           foodObj.active = false;
           if (wrapper.contains(food)) {
@@ -283,93 +322,134 @@ export default function Hero() {
       time += 0.05;
       const wWidth = window.innerWidth;
 
-      // Find nearest food for leader fish
-      let leaderNearestFood = null;
-      let leaderMinDist = Infinity;
-      activeFoods.forEach(food => {
-        if (!food.active) return;
-        const dx = food.currentX - fishX;
-        const dy = food.currentY - fishY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < leaderMinDist) {
-          leaderMinDist = dist;
-          leaderNearestFood = food;
-        }
-      });
-
-      if (leaderNearestFood) {
-        // Swim towards the food
-        const dx = leaderNearestFood.currentX - fishX;
-        const dy = leaderNearestFood.currentY - fishY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
+      // 1. Update Parent/Leader Fish positions & animations
+      parentElements.forEach((parent) => {
+        parent.timeOffset += 0.05;
         
-        // Face the food direction
-        const toFoodDir = dx > 0 ? 1 : -1;
-        if (toFoodDir !== direction) {
-          direction = toFoodDir;
-          gsap.to(fish, { scaleX: direction, duration: 0.4 });
+        // Sway tail & pectoral fins dynamically
+        if (parent.tail) {
+          const wiggle = Math.sin(parent.timeOffset * 6) * 15;
+          gsap.set(parent.tail, { rotate: wiggle, transformOrigin: "left center" });
+        }
+        if (parent.pec) {
+          const pecWiggle = Math.sin(parent.timeOffset * 3) * 10;
+          gsap.set(parent.pec, { rotate: pecWiggle, transformOrigin: "top right" });
         }
 
-        // Swim with accelerated attraction speed
-        const activeSpeed = Math.min(8.5, speed * 2.8);
-        fishX += (dx / dist) * activeSpeed;
-        fishY += (dy / dist) * activeSpeed;
+        // Find nearest food for this parent
+        let nearestFood = null;
+        let minDist = Infinity;
+        activeFoods.forEach(food => {
+          if (!food.active) return;
+          const dx = food.currentX - parent.x;
+          const dy = food.currentY - parent.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < minDist) {
+            minDist = dist;
+            nearestFood = food;
+          }
+        });
 
-        // Tail fin wiggles franticly when going for food!
-        if (tailFin) {
-          gsap.set(tailFin, { rotate: Math.sin(time * 12) * 25, transformOrigin: "left center" });
+        if (nearestFood) {
+          // Swim towards food
+          const dx = nearestFood.currentX - parent.x;
+          const dy = nearestFood.currentY - parent.y;
+          
+          // Face food direction
+          const toFoodDir = dx > 0 ? 1 : -1;
+          if (toFoodDir !== parent.direction) {
+            parent.direction = toFoodDir;
+            gsap.to(parent.element, { scaleX: parent.direction, duration: 0.4 });
+          }
+
+          // Swim with accelerated attraction speed
+          const activeSpeed = Math.min(8.5, parent.speed * 2.8);
+          parent.x += (dx / minDist) * activeSpeed;
+          parent.y += (dy / minDist) * activeSpeed;
+
+          // Tail wiggles frantically when going for food
+          if (parent.tail) {
+            gsap.set(parent.tail, { rotate: Math.sin(parent.timeOffset * 15) * 25, transformOrigin: "left center" });
+          }
+
+          // Eat food if very close
+          if (minDist < 45) {
+            nearestFood.active = false;
+            const eatenFood = nearestFood;
+            gsap.to(eatenFood.element, {
+              scale: 0,
+              opacity: 0,
+              duration: 0.2,
+              onComplete: () => {
+                if (wrapper.contains(eatenFood.element)) {
+                  wrapper.removeChild(eatenFood.element);
+                }
+              }
+            });
+            activeFoods = activeFoods.filter(f => f !== eatenFood);
+          }
+        } else {
+          // Normal horizontal movement of parent
+          parent.x += parent.speed * parent.direction;
+          parent.y += Math.sin(parent.timeOffset * 0.8) * 0.8;
+
+          // Flip at edge boundaries
+          if (parent.direction === 1 && parent.x >= wWidth - 140) {
+            parent.direction = -1;
+            parent.speed = 1.8 + Math.random() * 1.5;
+            gsap.to(parent.element, { scaleX: -1, duration: 0.4 });
+          } else if (parent.direction === -1 && parent.x <= 20) {
+            parent.direction = 1;
+            parent.speed = 1.8 + Math.random() * 1.5;
+            gsap.to(parent.element, { scaleX: 1, duration: 0.4 });
+          }
         }
 
-        // Eat food if very close
-        if (dist < 45) {
-          const eatenFood = leaderNearestFood;
-          eatenFood.active = false;
-          gsap.to(eatenFood.element, {
-            scale: 0,
+        // Clamp
+        parent.x = Math.max(10, Math.min(wWidth - 130, parent.x));
+        parent.y = Math.max(100, Math.min(window.innerHeight - 100, parent.y));
+
+        gsap.set(parent.element, { x: parent.x, y: parent.y });
+
+        // Spawn bubbles behind each parent tail
+        if (Math.random() < 0.04) {
+          const bubble = document.createElement("div");
+          bubble.className = styles.bubbleParticle;
+          
+          const tailOffset = parent.direction === 1 ? -60 : 60;
+          const bX = parent.x + 60 + tailOffset;
+          const bY = parent.y + 30 + (Math.random() * 10 - 5);
+          const size = 3 + Math.random() * 8;
+
+          bubble.style.left = `${bX}px`;
+          bubble.style.top = `${bY}px`;
+          bubble.style.width = `${size}px`;
+          bubble.style.height = `${size}px`;
+          wrapper.appendChild(bubble);
+
+          gsap.to(bubble, {
+            y: -100 - Math.random() * 150,
+            x: `+=${Math.random() * 40 - 20}`,
             opacity: 0,
-            duration: 0.2,
+            scale: 1.5,
+            duration: 2 + Math.random() * 2,
+            ease: "power1.out",
             onComplete: () => {
-              if (wrapper.contains(eatenFood.element)) {
-                wrapper.removeChild(eatenFood.element);
+              if (wrapper.contains(bubble)) {
+                wrapper.removeChild(bubble);
               }
             }
           });
-          activeFoods = activeFoods.filter(f => f !== eatenFood);
         }
-      } else {
-        // Normal horizontal motion of leader fish
-        fishX += speed * direction;
-        
-        // Vertical organic wave (sine motion)
-        fishY += Math.sin(time) * 0.8;
+      });
 
-        // Wrap around or flip direction BEFORE leaving the screen
-        if (direction === 1 && fishX >= wWidth - fishWidth - 20) {
-          direction = -1;
-          speed = 1.8 + Math.random() * 1.5;
-          fishY = 150 + Math.random() * (window.innerHeight - 300);
-          gsap.to(fish, { scaleX: -1, duration: 0.4 });
-        } else if (direction === -1 && fishX <= 20) {
-          direction = 1;
-          speed = 1.8 + Math.random() * 1.5;
-          fishY = 150 + Math.random() * (window.innerHeight - 300);
-          gsap.to(fish, { scaleX: 1, duration: 0.4 });
-        }
-      }
-
-      // Clamp coordinates so the leader never swims off-screen
-      fishX = Math.max(10, Math.min(wWidth - fishWidth - 10, fishX));
-      fishY = Math.max(100, Math.min(window.innerHeight - 100, fishY));
-
-      gsap.set(fish, { x: fishX, y: fishY });
-
-      // Update school fish positions
+      // 2. Update School Minnow Positions
       schoolElements.forEach((sf, idx) => {
         let targetX = 0;
         let targetY = 0;
         let swimEase = sf.delayFactor;
         
-        // Find nearest food for this school fish
+        // Find nearest food for this school minnow
         let nearestFood = null;
         let minDist = Infinity;
         activeFoods.forEach(food => {
@@ -384,12 +464,10 @@ export default function Hero() {
         });
 
         if (nearestFood) {
-          // Attracted to food coordinates with small individual offsets
           targetX = nearestFood.currentX + (idx % 2 === 0 ? 20 : -20) + Math.sin(time + idx) * 12;
           targetY = Math.min(window.innerHeight - 100, nearestFood.currentY + (idx % 2 === 0 ? 15 : -15) + Math.cos(time + idx) * 12);
-          swimEase = 0.12; // swim much faster and tightly gather around food!
+          swimEase = 0.12; 
           
-          // Tail wiggles rapidly during feeding
           if (sf.tail) {
             gsap.set(sf.tail, { 
               rotate: Math.sin(time * 10 + idx) * 28, 
@@ -397,14 +475,12 @@ export default function Hero() {
             });
           }
 
-          // Point fish towards food
           const toFoodDir = targetX > sf.x ? 1 : -1;
           gsap.set(sf.element, { scaleX: toFoodDir });
 
-          // School fish eats food if very close
           if (minDist < 30) {
+            nearestFood.active = false;
             const eatenFood = nearestFood;
-            eatenFood.active = false;
             gsap.to(eatenFood.element, {
               scale: 0,
               opacity: 0,
@@ -417,19 +493,17 @@ export default function Hero() {
             });
             activeFoods = activeFoods.filter(f => f !== eatenFood);
           }
-
         } else {
-          // Follow main fish with delay and spatial offset
-          const followDirection = direction;
+          // Follow dynamically assigned parent (index % 4)
+          const assignedParent = parentElements[idx % numParents];
+          const followDirection = assignedParent.direction;
           const behindOffset = followDirection === 1 ? sf.offsetX : -sf.offsetX;
-          targetX = fishX + behindOffset + Math.sin(time * 0.8 + idx) * 15;
-          targetY = fishY + sf.offsetY + Math.cos(time * 0.8 + idx) * 10;
+          targetX = assignedParent.x + behindOffset + Math.sin(time * 0.8 + idx) * 15;
+          targetY = assignedParent.y + sf.offsetY + Math.cos(time * 0.8 + idx) * 10;
           
-          // Match school fish face direction smoothly
           const currentScale = followDirection === 1 ? 1 : -1;
           gsap.set(sf.element, { scaleX: currentScale });
           
-          // Normal ambient tail wiggling
           if (sf.tail) {
             gsap.set(sf.tail, { 
               rotate: Math.sin(time * 3 + idx) * 12, 
@@ -438,47 +512,14 @@ export default function Hero() {
           }
         }
         
-        // Damped motion to target coordinates
         sf.x += (targetX - sf.x) * swimEase;
         sf.y += (targetY - sf.y) * swimEase;
         
-        // Clamp school fish position inside the viewport
         sf.x = Math.max(5, Math.min(wWidth - sf.size - 5, sf.x));
         sf.y = Math.max(50, Math.min(window.innerHeight - 50, sf.y));
 
         gsap.set(sf.element, { x: sf.x, y: sf.y });
       });
-
-      // Spawn bubbles behind the main fish tail coordinates
-      if (Math.random() < 0.12) {
-        const bubble = document.createElement("div");
-        bubble.className = styles.bubbleParticle;
-        
-        const tailOffset = direction === 1 ? -60 : 60;
-        const bX = fishX + 60 + tailOffset;
-        const bY = fishY + 30 + (Math.random() * 10 - 5);
-        const size = 3 + Math.random() * 8;
-
-        bubble.style.left = `${bX}px`;
-        bubble.style.top = `${bY}px`;
-        bubble.style.width = `${size}px`;
-        bubble.style.height = `${size}px`;
-        wrapper.appendChild(bubble);
-
-        gsap.to(bubble, {
-          y: -100 - Math.random() * 150,
-          x: `+=${Math.random() * 40 - 20}`,
-          opacity: 0,
-          scale: 1.5,
-          duration: 2 + Math.random() * 2,
-          ease: "power1.out",
-          onComplete: () => {
-            if (wrapper.contains(bubble)) {
-              wrapper.removeChild(bubble);
-            }
-          }
-        });
-      }
     };
 
     gsap.ticker.add(animateSwim);
@@ -486,6 +527,14 @@ export default function Hero() {
     return () => {
       gsap.ticker.remove(animateSwim);
       wrapper.removeEventListener("mousedown", handleWrapperClick);
+      
+      // Clean up dynamic parents safely
+      parentElements.forEach(parent => {
+        if (leaderContainer && leaderContainer.contains(parent.element)) {
+          leaderContainer.removeChild(parent.element);
+        }
+      });
+      
       // Clean up school elements
       schoolElements.forEach(sf => {
         if (wrapper.contains(sf.element)) {
@@ -544,40 +593,8 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Elegant Swimming Fish (Sleek minimalist fish path SVG) */}
-      <div ref={fishRef} className={styles.fishContainer}>
-        <svg viewBox="0 0 120 60" width="100%" height="100%">
-          {/* Fish Silhouette */}
-          <path
-            d="M20,30 C35,15 65,10 85,25 C95,20 105,15 110,22 C105,30 105,30 110,38 C105,45 95,40 85,35 C65,50 35,45 20,30 Z"
-            fill="rgba(255, 255, 255, 0.45)"
-            stroke="var(--color-turquoise)"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-          />
-          {/* Tail Fin */}
-          <path
-            id="tail-fin"
-            d="M18,30 L3,12 C0,20 0,40 3,48 Z"
-            fill="rgba(174, 230, 220, 0.75)"
-            stroke="var(--color-turquoise)"
-            strokeWidth="2"
-          />
-          {/* Pectoral Fin */}
-          <path
-            id="pec-fin"
-            d="M60,36 C55,42 45,46 45,46 C45,46 50,38 55,34"
-            fill="none"
-            stroke="var(--color-turquoise)"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-          {/* Fish Eye */}
-          <circle cx="85" cy="24" r="2.5" fill="var(--color-marine)" />
-          {/* Gills Line */}
-          <path d="M76,22 C73,26 73,32 76,36" fill="none" stroke="var(--color-turquoise)" strokeWidth="1.8" />
-        </svg>
-      </div>
+      {/* Container for Dynamic Spawning of 4 Parent/Leader Fishes */}
+      <div ref={fishRef} className={styles.leaderFishContainer} id="leader-fish-container"></div>
 
       <div className={styles.heroContent}>
         <p ref={tagRef} className={styles.serifTagline}>
