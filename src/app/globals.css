@@ -1,28 +1,28 @@
 /* src/app/globals.css */
 
 :root {
-  --bg-primary-grad: linear-gradient(180deg, hsl(200, 60%, 98%) 0%, hsl(192, 50%, 93%) 100%);
-  --bg-sand: hsl(200, 60%, 98%);
-  --bg-water: hsl(192, 50%, 93%);
-  --bg-deep: hsl(194, 60%, 88%);
+  --bg-primary-grad: linear-gradient(180deg, hsl(196, 75%, 90%) 0%, hsl(190, 60%, 82%) 100%);
+  --bg-sand: hsl(196, 75%, 90%);
+  --bg-water: hsl(190, 60%, 82%);
+  --bg-deep: hsl(192, 50%, 75%);
   
-  --color-marine: hsl(212, 70%, 14%);
+  --color-marine: hsl(212, 70%, 14%); /* rich dark navy for high readability */
   --color-marine-muted: hsl(212, 25%, 35%);
-  --color-turquoise: hsl(174, 70%, 38%);
-  --color-seafoam: hsl(160, 60%, 45%);
+  --color-turquoise: hsl(174, 75%, 38%);
+  --color-seafoam: hsl(160, 65%, 42%);
   --color-coral: hsl(12, 80%, 65%);
   --color-salmon: hsl(6, 85%, 68%);
   --color-goldfish: hsl(28, 95%, 58%);
-  --color-glow-blue: hsl(190, 90%, 65%);
+  --color-glow-blue: hsl(190, 90%, 60%);
   --color-neon-yellow: hsl(55, 95%, 60%);
-  --color-deep-bg: hsl(210, 60%, 8%);
+  --color-deep-bg: hsl(196, 40%, 60%);
   
-  --glass-bg: rgba(255, 255, 255, 0.45);
-  --glass-border: rgba(255, 255, 255, 0.55);
-  --glass-shadow: 0 12px 40px 0 rgba(15, 60, 90, 0.05);
+  --glass-bg: rgba(255, 255, 255, 0.5); /* elegant light glassmorphism */
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-shadow: 0 12px 40px 0 rgba(15, 60, 90, 0.08);
   --glass-blur: blur(16px);
   
-  --cursor-color: hsl(174, 70%, 38%);
+  --cursor-color: hsl(174, 75%, 38%);
   
   /* Fonts */
   --font-outfit: var(--font-outfit-local, 'Outfit', sans-serif);

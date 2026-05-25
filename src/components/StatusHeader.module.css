@@ -11,89 +11,104 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 28px;
+  padding: 12px 32px;
   border-radius: 50px;
-  transition: all 0.4s ease;
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  box-shadow: var(--glass-shadow);
 }
 
-.leftSection {
+.leftLinks, .rightLinks {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 28px;
+}
+
+.navLink {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-marine);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  position: relative;
+  transition: color 0.3s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-turquoise);
+  transition: width 0.3s ease;
+}
+
+.navLink:hover {
+  color: var(--color-turquoise);
+}
+
+.navLink:hover::after {
+  width: 100%;
+}
+
+.centerLogo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.centerLogo:hover {
+  transform: scale(1.05);
 }
 
 .logoText {
-  font-family: var(--font-serif), serif;
-  font-size: 1.3rem;
-  font-weight: 700;
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 1.25rem;
+  font-weight: 900;
   color: var(--color-marine);
-  letter-spacing: -0.01em;
+  letter-spacing: 0.25em;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
-.logoPulse {
-  width: 8px;
-  height: 8px;
-  background-color: var(--color-turquoise);
-  border-radius: 50%;
-  box-shadow: 0 0 10px var(--color-turquoise);
-  animation: pulse 2s infinite;
+.logoSubText {
+  font-family: var(--font-serif), serif;
+  font-style: italic;
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--color-turquoise);
+  letter-spacing: 0.08em;
+  margin-top: 3px;
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(174, 70, 38, 0.4);
-  }
-  70% {
-    transform: scale(1);
-    box-shadow: 0 0 0 8px rgba(174, 70, 38, 0);
-  }
-  100% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(174, 70, 38, 0);
-  }
-}
-
-.rightSection {
+.userSection {
   display: flex;
   align-items: center;
-  gap: 20px;
-}
-
-.userInfoCard {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 4px 16px 4px 6px;
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  gap: 8px;
 }
 
 .userAvatar {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  border: 2px solid var(--color-turquoise);
+  border: 1.5px solid var(--color-turquoise);
   background: white;
   box-shadow: 0 4px 10px rgba(15, 60, 90, 0.05);
 }
 
-.userDetails {
-  display: flex;
-  flex-direction: column;
-}
-
 .userName {
-  font-size: 0.85rem;
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 0.8rem;
   font-weight: 700;
   color: var(--color-marine);
-}
-
-.userStatus {
-  font-size: 0.65rem;
-  font-weight: 600;
-  color: var(--color-turquoise);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -103,45 +118,56 @@
   border: 1.5px solid var(--color-marine);
   color: var(--color-marine);
   font-family: var(--font-outfit), sans-serif;
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 8px 18px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 8px 16px;
   border-radius: 30px;
   cursor: pointer;
   letter-spacing: 0.05em;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .logoutBtn:hover {
   background: var(--color-marine);
   color: white;
-  transform: translateY(-1px);
+  transform: translateY(-1.5px);
+}
+
+@media (max-width: 992px) {
+  .headerWrapper {
+    width: 95%;
+    padding: 10px 24px;
+  }
+  .leftLinks, .rightLinks {
+    gap: 18px;
+  }
 }
 
 @media (max-width: 768px) {
   .headerWrapper {
     top: 10px;
     padding: 10px 16px;
-    border-radius: 24px;
-    width: 95%;
+    border-radius: 20px;
   }
 
-  .logoText {
-    font-size: 1.1rem;
+  .leftLinks {
+    display: none; /* Hide navigation links on small mobile screens to keep it clean */
   }
 
-  .userDetails {
+  .rightLinks .navLink {
     display: none;
   }
 
-  .userInfoCard {
-    padding: 2px;
-    background: transparent;
-    border: none;
+  .centerLogo {
+    align-items: flex-start;
+  }
+
+  .logoText {
+    font-size: 1.05rem;
   }
 
   .logoutBtn {
     padding: 6px 12px;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
   }
 }

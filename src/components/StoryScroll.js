@@ -361,23 +361,23 @@ export default function StoryScroll() {
           <div className={styles.panelContent}>
             <div className={styles.panelLeft}>
               <span className={styles.panelNumber}>03</span>
-              <span className={styles.panelTagline}>Uncharted Territory</span>
-              <h2 className={styles.panelTitle}>The Creative Deep</h2>
+              <span className={styles.panelTagline}>Sea of Voice // Voice of SEA</span>
+              <h2 className={styles.panelTitle}>The Digital Youth Wave</h2>
             </div>
             <div className={`${styles.panelRight} glass-card`}>
               <p className={styles.panelDesc}>
-                Beneath the surface lies true creative freedom. We explore new depths
-                in technology, combining GSAP ScrollTrigger performance, Next.js routing structures,
-                and stateful APIs to create jaw-dropping web applications.
+                Gen Z and Millennials are crossing the digital sea. Through pixel-perfect, 
+                fluid frontend craftsmanship, we build interactive environments that empower the true voices 
+                of Southeast Asian youth, shaping highly engaging entertainment and creative agency platforms for millions.
               </p>
               <div className={styles.statGrid}>
                 <div className={styles.statItem}>
-                  <span className={styles.statVal}>Infinite</span>
-                  <span className={styles.statLabel}>Possibilities</span>
+                  <span className={styles.statVal}>Millions</span>
+                  <span className={styles.statLabel}>Youth Impact</span>
                 </div>
                 <div className={styles.statItem}>
-                  <span className={styles.statVal}>Next-Gen</span>
-                  <span className={styles.statLabel}>Frontend</span>
+                  <span className={styles.statVal}>#VoiceOfPeople</span>
+                  <span className={styles.statLabel}>Editorial Motto</span>
                 </div>
               </div>
             </div>

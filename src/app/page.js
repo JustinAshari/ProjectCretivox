@@ -15,6 +15,7 @@ const StatusHeader = dynamic(() => import("@/components/StatusHeader"), { ssr: f
 const Hero = dynamic(() => import("@/components/Hero"), { ssr: false });
 const FierceGallery = dynamic(() => import("@/components/FierceGallery"), { ssr: false });
 const StoryScroll = dynamic(() => import("@/components/StoryScroll"), { ssr: false });
+const Marquee = dynamic(() => import("@/components/Marquee"), { ssr: false });
 
 export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -95,6 +96,9 @@ export default function Home() {
             {/* Hero Section */}
             <Hero />
 
+            {/* Infinite Scrolling Ticker (Cretivox Theme) */}
+            <Marquee />
+
             {/* Fierce Photos Gallery */}
             <FierceGallery />
 
@@ -103,7 +107,7 @@ export default function Home() {
           </main>
 
           {/* Premium Aquatic Footer */}
-          <footer className={styles.aquaticFooter}>
+          <footer id="footer" className={styles.aquaticFooter}>
             <div className={styles.footerContent}>
               <h2 className={styles.footerTitle}>Let&apos;s Create Waves.</h2>
               <p className={styles.footerDesc}>
@@ -112,7 +116,7 @@ export default function Home() {
               </p>
               
               <div className={styles.footerCreds}>
-                <span className={styles.devTag}>DESIGNED & CODED BY EMILY JOHNSON</span>
+                <span className={styles.devTag}>DESIGNED & CODED BY JUSTIN FARREL HAZZA ASHARI</span>
                 <span className={styles.yearTag}>CRETIVOX ENDURANCE TEST // 2026</span>
               </div>
             </div>

@@ -21,10 +21,54 @@ export default function CustomCursor() {
     const mousePos = { x: 0, y: 0 };
     const cursorPos = { x: 0, y: 0 };
 
-    // Fluid drag effect (inertia lag)
+    let lastX = 0;
+    let lastY = 0;
+
+    // Fluid drag effect (inertia lag) & dynamic bubble trail
     const onMouseMove = (e) => {
-      mousePos.x = e.clientX;
-      mousePos.y = e.clientY;
+      const currentX = e.clientX;
+      const currentY = e.clientY;
+
+      mousePos.x = currentX;
+      mousePos.y = currentY;
+
+      // Distance check for abundant and dense bubble trail
+      const dx = currentX - lastX;
+      const dy = currentY - lastY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist > 15) { // Spawn a trail bubble every 15px moved (much more abundant!)
+        lastX = currentX;
+        lastY = currentY;
+
+        const container = containerRef.current;
+        if (container) {
+          const bubble = document.createElement("div");
+          bubble.className = styles.trailBubble;
+          bubble.style.left = `${currentX}px`;
+          bubble.style.top = `${currentY}px`;
+          
+          const size = 4 + Math.random() * 8; // larger and clearer micro-bubbles (4px - 12px)
+          bubble.style.width = `${size}px`;
+          bubble.style.height = `${size}px`;
+          container.appendChild(bubble);
+
+          // Animate floating up and drifting slightly left/right
+          gsap.to(bubble, {
+            y: -60 - Math.random() * 80, // float upwards
+            x: (Math.random() * 40 - 20), // drift slightly
+            opacity: 0,
+            scale: 1.5,
+            duration: 0.6 + Math.random() * 0.6, // faster fade for high-performance dense trail
+            ease: "power1.out",
+            onComplete: () => {
+              if (container.contains(bubble)) {
+                container.removeChild(bubble);
+              }
+            }
+          });
+        }
+      }
     };
 
     window.addEventListener("mousemove", onMouseMove);

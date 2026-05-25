@@ -1,0 +1,61 @@
+/* src/components/Marquee.module.css */
+
+.marqueeContainer {
+  width: 100%;
+  overflow: hidden;
+  background: var(--glass-bg);
+  border-top: 1.5px solid var(--glass-border);
+  border-bottom: 1.5px solid var(--glass-border);
+  padding: 18px 0;
+  display: flex;
+  white-space: nowrap;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  z-index: 8;
+  position: relative;
+  box-shadow: var(--glass-shadow);
+}
+
+.marqueeTrack {
+  display: flex;
+  animation: scroll-marquee 25s linear infinite;
+  will-change: transform;
+}
+
+.marqueeSet {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding-right: 30px;
+}
+
+.marqueeText {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: var(--color-marine);
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  background-color: var(--color-turquoise);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--color-turquoise), 0 0 4px white;
+  flex-shrink: 0;
+}
+
+@keyframes scroll-marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}

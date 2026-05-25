@@ -44,16 +44,24 @@ export default function Hero() {
     const title = titleRef.current;
     if (!title) return;
 
-    // Split title into words
-    const words = title.innerText.split(" ");
+    // Split title into two lines with word spans for staggered animation
+    const lines = ["Crystal Lagoon.", "Silent Life."];
     title.innerHTML = "";
     
-    words.forEach((word) => {
-      const span = document.createElement("span");
-      span.innerText = word + "\u00A0";
-      span.style.display = "inline-block";
-      span.style.whiteSpace = "nowrap";
-      title.appendChild(span);
+    lines.forEach((lineText) => {
+      const lineDiv = document.createElement("div");
+      lineDiv.style.display = "block";
+      
+      const words = lineText.split(" ");
+      words.forEach((word, index) => {
+        const span = document.createElement("span");
+        span.innerText = word + (index < words.length - 1 ? "\u00A0" : "");
+        span.style.display = "inline-block";
+        span.style.whiteSpace = "nowrap";
+        lineDiv.appendChild(span);
+      });
+      
+      title.appendChild(lineDiv);
     });
 
     const tl = gsap.timeline({ delay: 0.6 });
@@ -497,8 +505,14 @@ export default function Hero() {
 
   return (
     <section ref={heroRef} className={styles.heroWrapper} id="hero">
+      {/* Sunlight/God Rays effect */}
+      <div className={styles.lightRays}></div>
+
       {/* Follow spot glow */}
       <div ref={glowRef} className={styles.glowTracker}></div>
+
+      {/* Sandy ocean floor lighting */}
+      <div className={styles.seaFloor}></div>
 
       {/* Swaying Kelp Forest Background */}
       <div className={styles.kelpForest}>
@@ -561,16 +575,17 @@ export default function Hero() {
 
       <div className={styles.heroContent}>
         <p ref={tagRef} className={styles.serifTagline}>
-          Swimming Against the Current
+          Aliran Harmoni di Bawah Riak Samudera
         </p>
         
         <h1 ref={titleRef} className={styles.heroTitle}>
-          Fluid Mind. Resilient Strength.
+          Crystal Lagoon. <br /> Silent Life.
         </h1>
 
         <p ref={descRef} className={styles.heroDescription}>
-          I build high-end interactive digital landscapes. Through organic, storytelling-driven animations,
-          I transform layouts into engaging, responsive aquatic experiences that flow beautifully with the user.
+          Menyelami kedalaman laguna samudera yang jernih, tempat kawanan ikan berenang bebas mengikuti arus alami yang tenang. 
+          Seperti kehidupan laut yang terus mengalir tanpa henti, keindahan terumbu karang dan riak air di bawah sinar matahari pagi 
+          mengajarkan kita tentang harmoni, ketenangan, dan ketangguhan sejati dalam mengarungi luasnya samudera kehidupan.
         </p>
       </div>
 

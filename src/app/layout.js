@@ -18,10 +18,10 @@ const playfair = Playfair_Display({
 });
 
 export const metadata = {
-  title: "THE FLOW // A Creative Frontend Journey by Emily Johnson",
+  title: "THE FLOW // A Creative Frontend Journey by Justin Farrel Hazza Ashari",
   description: "An interactive, clean aquatic frontend portfolio showcasing GSAP scroll triggers, fluid micro-animations, and storytelling, built for the Cretivox Endurance Test.",
   keywords: ["Cretivox", "Endurance Test", "Frontend Developer", "GSAP Animations", "Creative Portfolio", "Web Developer", "Interactive Design"],
-  authors: [{ name: "Emily Johnson" }],
+  authors: [{ name: "Justin Farrel Hazza Ashari" }],
 };
 
 export default function RootLayout({ children }) {

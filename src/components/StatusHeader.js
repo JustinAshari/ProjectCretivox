@@ -17,6 +17,14 @@ export default function StatusHeader({ userData, onLogout }) {
     );
   }, []);
 
+  const handleNavClick = (e, selector) => {
+    e.preventDefault();
+    const el = document.querySelector(selector);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const handleLogoutClick = () => {
     // Fade out header
     gsap.to(headerRef.current, {
@@ -34,28 +42,42 @@ export default function StatusHeader({ userData, onLogout }) {
 
   return (
     <header ref={headerRef} className={`${styles.headerWrapper} glass-card`}>
-      <div className={styles.leftSection}>
-        <div className={styles.logoPulse}></div>
-        <span className={styles.logoText}>THE FLOW</span>
+      {/* Left Navigation Links */}
+      <div className={styles.leftLinks}>
+        <a href="#hero" onClick={(e) => handleNavClick(e, "#hero")} className={styles.navLink}>
+          HOME
+        </a>
+        <a href="#story-scroll" onClick={(e) => handleNavClick(e, "#story-scroll")} className={styles.navLink}>
+          ABOUT
+        </a>
+        <a href="#fierce-gallery" onClick={(e) => handleNavClick(e, "#fierce-gallery")} className={styles.navLink}>
+          WORK
+        </a>
       </div>
 
-      <div className={styles.rightSection}>
+      {/* Center Custom Bold Typography Logo */}
+      <div className={styles.centerLogo} onClick={(e) => handleNavClick(e, "#hero")}>
+        <span className={styles.logoText}>THE FLOW</span>
+        <span className={styles.logoSubText}>BY JUSTIN ASHARI</span>
+      </div>
+
+      {/* Right Actions & User Details */}
+      <div className={styles.rightLinks}>
+        <a href="#footer" onClick={(e) => handleNavClick(e, "#footer")} className={styles.navLink}>
+          CONTACT
+        </a>
+
         {userData && (
-          <div className={styles.userInfoCard}>
+          <div className={styles.userSection}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={userData.image || "https://dummyjson.com/icon/emilys/128"}
               alt={`${userData.firstName} Avatar`}
               className={styles.userAvatar}
             />
-            <div className={styles.userDetails}>
-              <span className={styles.userName}>
-                {userData.firstName} {userData.lastName}
-              </span>
-              <span className={styles.userStatus}>
-                SYSTEM ONLINE // AUTH
-              </span>
-            </div>
+            <span className={styles.userName}>
+              {userData.firstName === "Emily" ? "JUSTIN" : userData.firstName.toUpperCase()}
+            </span>
           </div>
         )}
 

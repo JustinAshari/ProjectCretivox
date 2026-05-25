@@ -25,36 +25,15 @@
 
 /* Alternate light aquatic hues for smooth depth variations */
 .panel1 {
-  background: radial-gradient(circle at bottom right, hsl(194, 50%, 94%) 0%, hsl(200, 60%, 98%) 100%);
+  background: radial-gradient(circle at bottom right, hsl(194, 55%, 92%) 0%, hsl(200, 65%, 97%) 100%);
 }
 
 .panel2 {
-  background: radial-gradient(circle at center, hsl(190, 45%, 93%) 0%, hsl(195, 50%, 97%) 100%);
+  background: radial-gradient(circle at center, hsl(190, 50%, 90%) 0%, hsl(195, 55%, 96%) 100%);
 }
 
 .panel3 {
-  background: radial-gradient(circle at top left, hsl(174, 30%, 92%) 0%, hsl(192, 40%, 96%) 100%);
-}
-
-/* Custom panel theme for dark abyssal depth */
-.panel3 {
-  background: linear-gradient(180deg, hsl(212, 60%, 12%) 0%, var(--color-deep-bg) 100%) !important;
-}
-
-.panel3 .panelTitle,
-.panel3 .statVal {
-  color: white !important;
-  text-shadow: 0 0 15px rgba(174, 230, 220, 0.5);
-}
-
-.panel3 .panelDesc,
-.panel3 .statLabel {
-  color: rgba(255, 255, 255, 0.75) !important;
-}
-
-.panel3 .panelNumber {
-  color: rgba(255, 255, 255, 0.08) !important;
-  border-bottom-color: var(--color-glow-blue) !important;
+  background: linear-gradient(180deg, hsl(194, 60%, 88%) 0%, hsl(190, 50%, 82%) 100%) !important;
 }
 
 .panelContent {
