@@ -123,7 +123,7 @@ export default function Hero() {
     }
 
     // --- Dynamic School of Fish Setup ---
-    const numSchool = 6;
+    const numSchool = 24; // Spawns an abundant, vibrant school of 24 fish!
     const schoolElements = [];
     const schoolColors = [
       "var(--color-goldfish)",
@@ -146,8 +146,8 @@ export default function Hero() {
       
       sf.innerHTML = `
         <svg viewBox="0 0 80 40" width="100%" height="100%">
-          <path d="M12,20 C22,10 42,6 55,16 C62,13 68,10 72,15 C68,20 68,20 72,25 C68,30 62,27 55,24 C42,34 22,30 12,20 Z" fill="${color}" opacity="0.85" />
-          <path class="school-tail" d="M11,20 L2,8 C0,13 0,27 2,32 Z" fill="${color}" opacity="0.65" />
+          <path d="M12,20 C22,10 42,6 55,16 C62,13 68,10 72,15 C68,20 68,20 72,25 C68,30 62,27 55,24 C42,34 22,30 12,20 Z" fill="${color}" opacity="1.0" />
+          <path class="school-tail" d="M11,20 L2,8 C0,13 0,27 2,32 Z" fill="${color}" opacity="0.85" />
           <circle cx="55" cy="16" r="1.5" fill="var(--color-marine)" />
         </svg>
       `;
@@ -157,12 +157,12 @@ export default function Hero() {
       schoolElements.push({
         element: sf,
         tail: sf.querySelector(".school-tail"),
-        x: fishX - 100 - (i * 35),
-        y: fishY + (i % 2 === 0 ? 35 : -35),
+        x: fishX - 40 - Math.random() * 120,
+        y: fishY + (Math.random() * 100 - 50),
         size: size,
-        delayFactor: 0.04 + (i * 0.01),
-        offsetY: (i % 2 === 0 ? 35 : -35) - (Math.random() * 15),
-        offsetX: -65 - (i * 25)
+        delayFactor: 0.05 + Math.random() * 0.04,
+        offsetY: (Math.random() * 120 - 60),
+        offsetX: -50 - Math.random() * 150
       });
     }
 
@@ -226,13 +226,13 @@ export default function Hero() {
       };
       activeFoods.push(foodObj);
 
-      // Ripple expand and sink animation (sinks for 4.5 seconds)
+      // Ripple expand and sink animation (sinks slower and deeper for 8.0 seconds)
       gsap.fromTo(food,
         { scale: 0.3, opacity: 1, y: 0 },
         { 
-          scale: 1.2, 
-          y: 120, // sink down
-          duration: 4.5, 
+          scale: 1.1, 
+          y: 200, // sink down further to let fish swarm
+          duration: 8.0, 
           ease: "power1.out",
           onUpdate: () => {
             if (foodObj.active) {
@@ -243,11 +243,11 @@ export default function Hero() {
         }
       );
       
-      // Delay before fading out (7.0 seconds from click)
+      // Delay before fading out (9.0 seconds from click)
       gsap.to(food, {
         opacity: 0,
-        delay: 7.0,
-        duration: 1.0,
+        delay: 9.0,
+        duration: 1.5,
         onComplete: () => {
           foodObj.active = false;
           if (wrapper.contains(food)) {
@@ -310,12 +310,18 @@ export default function Hero() {
           gsap.to(fish, { scaleX: direction, duration: 0.4 });
         }
 
-        // Swim with attraction speed
-        fishX += (dx / dist) * speed * 1.5;
-        fishY += (dy / dist) * speed * 1.5;
+        // Swim with accelerated attraction speed
+        const activeSpeed = Math.min(8.5, speed * 2.8);
+        fishX += (dx / dist) * activeSpeed;
+        fishY += (dy / dist) * activeSpeed;
+
+        // Tail fin wiggles franticly when going for food!
+        if (tailFin) {
+          gsap.set(tailFin, { rotate: Math.sin(time * 12) * 25, transformOrigin: "left center" });
+        }
 
         // Eat food if very close
-        if (dist < 40) {
+        if (dist < 45) {
           const eatenFood = leaderNearestFood;
           eatenFood.active = false;
           gsap.to(eatenFood.element, {
@@ -379,14 +385,14 @@ export default function Hero() {
 
         if (nearestFood) {
           // Attracted to food coordinates with small individual offsets
-          targetX = nearestFood.currentX + (idx % 2 === 0 ? 15 : -15) + Math.sin(time + idx) * 8;
-          targetY = Math.min(window.innerHeight - 100, nearestFood.currentY + (idx % 2 === 0 ? 10 : -10) + Math.cos(time + idx) * 8);
-          swimEase = 0.08; // swim faster to food
+          targetX = nearestFood.currentX + (idx % 2 === 0 ? 20 : -20) + Math.sin(time + idx) * 12;
+          targetY = Math.min(window.innerHeight - 100, nearestFood.currentY + (idx % 2 === 0 ? 15 : -15) + Math.cos(time + idx) * 12);
+          swimEase = 0.12; // swim much faster and tightly gather around food!
           
           // Tail wiggles rapidly during feeding
           if (sf.tail) {
             gsap.set(sf.tail, { 
-              rotate: Math.sin(time * 8 + idx) * 22, 
+              rotate: Math.sin(time * 10 + idx) * 28, 
               transformOrigin: "left center" 
             });
           }
@@ -396,7 +402,7 @@ export default function Hero() {
           gsap.set(sf.element, { scaleX: toFoodDir });
 
           // School fish eats food if very close
-          if (minDist < 25) {
+          if (minDist < 30) {
             const eatenFood = nearestFood;
             eatenFood.active = false;
             gsap.to(eatenFood.element, {
@@ -544,18 +550,18 @@ export default function Hero() {
           {/* Fish Silhouette */}
           <path
             d="M20,30 C35,15 65,10 85,25 C95,20 105,15 110,22 C105,30 105,30 110,38 C105,45 95,40 85,35 C65,50 35,45 20,30 Z"
-            fill="rgba(15, 60, 90, 0.08)"
+            fill="rgba(255, 255, 255, 0.45)"
             stroke="var(--color-turquoise)"
-            strokeWidth="1.5"
+            strokeWidth="2.5"
             strokeLinecap="round"
           />
           {/* Tail Fin */}
           <path
             id="tail-fin"
             d="M18,30 L3,12 C0,20 0,40 3,48 Z"
-            fill="rgba(174, 230, 220, 0.4)"
+            fill="rgba(174, 230, 220, 0.75)"
             stroke="var(--color-turquoise)"
-            strokeWidth="1.5"
+            strokeWidth="2"
           />
           {/* Pectoral Fin */}
           <path
@@ -563,13 +569,13 @@ export default function Hero() {
             d="M60,36 C55,42 45,46 45,46 C45,46 50,38 55,34"
             fill="none"
             stroke="var(--color-turquoise)"
-            strokeWidth="1.5"
+            strokeWidth="2"
             strokeLinecap="round"
           />
           {/* Fish Eye */}
           <circle cx="85" cy="24" r="2.5" fill="var(--color-marine)" />
           {/* Gills Line */}
-          <path d="M76,22 C73,26 73,32 76,36" fill="none" stroke="var(--color-turquoise)" strokeWidth="1.2" />
+          <path d="M76,22 C73,26 73,32 76,36" fill="none" stroke="var(--color-turquoise)" strokeWidth="1.8" />
         </svg>
       </div>
 
