@@ -182,7 +182,7 @@ export default function FierceGallery() {
           <div className={styles.imageWrapper}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/fierce/Kiri.jpeg"
+              src="/fierce/Kiri.png"
               alt="Fierce Left Face Profile"
               className={styles.fierceImage}
             />
@@ -208,7 +208,7 @@ export default function FierceGallery() {
           <div className={styles.imageWrapper}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/fierce/Depan.jpeg"
+              src="/fierce/Depan.jpg"
               alt="Fierce Front Profile Face"
               className={styles.fierceImage}
             />
@@ -234,7 +234,7 @@ export default function FierceGallery() {
           <div className={styles.imageWrapper}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/fierce/Kanan.jpeg"
+              src="/fierce/Kanan.png"
               alt="Fierce Right Face Profile"
               className={styles.fierceImage}
             />
