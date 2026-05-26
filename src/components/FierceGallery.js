@@ -208,7 +208,7 @@ export default function FierceGallery() {
           <div className={styles.imageWrapper}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/fierce/Depan.jpg"
+              src="/fierce/Depan.JPG"
               alt="Fierce Front Profile Face"
               className={styles.fierceImage}
             />
