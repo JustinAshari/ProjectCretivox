@@ -44,26 +44,6 @@ export default function Hero() {
     const title = titleRef.current;
     if (!title) return;
 
-    // Split title into two lines with word spans for staggered animation
-    const lines = ["Crystal Lagoon.", "Silent Life."];
-    title.innerHTML = "";
-    
-    lines.forEach((lineText) => {
-      const lineDiv = document.createElement("div");
-      lineDiv.style.display = "block";
-      
-      const words = lineText.split(" ");
-      words.forEach((word, index) => {
-        const span = document.createElement("span");
-        span.innerText = word + (index < words.length - 1 ? "\u00A0" : "");
-        span.style.display = "inline-block";
-        span.style.whiteSpace = "nowrap";
-        lineDiv.appendChild(span);
-      });
-      
-      title.appendChild(lineDiv);
-    });
-
     const tl = gsap.timeline({ delay: 0.6 });
 
     // Staggered reveal of tagline, title words, description and scroll indicator
@@ -189,7 +169,7 @@ export default function Hero() {
         </svg>
       `;
       
-      wrapper.appendChild(sf);
+      leaderContainer.appendChild(sf);
       
       const parent = parentElements[parentIndex];
       
@@ -231,7 +211,7 @@ export default function Hero() {
           bubble.style.top = `${bY}px`;
           bubble.style.width = `${size}px`;
           bubble.style.height = `${size}px`;
-          wrapper.appendChild(bubble);
+          leaderContainer.appendChild(bubble);
 
           gsap.to(bubble, {
             y: -120 - Math.random() * 150,
@@ -241,8 +221,8 @@ export default function Hero() {
             duration: 1.5 + Math.random() * 1.5,
             ease: "power1.out",
             onComplete: () => {
-              if (wrapper.contains(bubble)) {
-                wrapper.removeChild(bubble);
+              if (leaderContainer.contains(bubble)) {
+                leaderContainer.removeChild(bubble);
               }
             }
           });
@@ -255,7 +235,7 @@ export default function Hero() {
       food.className = styles.foodParticle;
       food.style.left = `${clickX}px`;
       food.style.top = `${clickY}px`;
-      wrapper.appendChild(food);
+      leaderContainer.appendChild(food);
 
       const foodObj = {
         element: food,
@@ -289,8 +269,8 @@ export default function Hero() {
         duration: 2.0,
         onComplete: () => {
           foodObj.active = false;
-          if (wrapper.contains(food)) {
-            wrapper.removeChild(food);
+          if (leaderContainer.contains(food)) {
+            leaderContainer.removeChild(food);
           }
           activeFoods = activeFoods.filter(f => f !== foodObj);
         }
@@ -425,7 +405,7 @@ export default function Hero() {
           bubble.style.top = `${bY}px`;
           bubble.style.width = `${size}px`;
           bubble.style.height = `${size}px`;
-          wrapper.appendChild(bubble);
+          leaderContainer.appendChild(bubble);
 
           gsap.to(bubble, {
             y: -100 - Math.random() * 150,
@@ -435,8 +415,8 @@ export default function Hero() {
             duration: 2 + Math.random() * 2,
             ease: "power1.out",
             onComplete: () => {
-              if (wrapper.contains(bubble)) {
-                wrapper.removeChild(bubble);
+              if (leaderContainer.contains(bubble)) {
+                leaderContainer.removeChild(bubble);
               }
             }
           });
@@ -486,8 +466,8 @@ export default function Hero() {
               opacity: 0,
               duration: 0.2,
               onComplete: () => {
-                if (wrapper.contains(eatenFood.element)) {
-                  wrapper.removeChild(eatenFood.element);
+                if (leaderContainer.contains(eatenFood.element)) {
+                  leaderContainer.removeChild(eatenFood.element);
                 }
               }
             });
@@ -537,14 +517,14 @@ export default function Hero() {
       
       // Clean up school elements
       schoolElements.forEach(sf => {
-        if (wrapper.contains(sf.element)) {
-          wrapper.removeChild(sf.element);
+        if (leaderContainer.contains(sf.element)) {
+          leaderContainer.removeChild(sf.element);
         }
       });
       // Clean up all active foods
       activeFoods.forEach(food => {
-        if (wrapper.contains(food.element)) {
-          wrapper.removeChild(food.element);
+        if (leaderContainer.contains(food.element)) {
+          leaderContainer.removeChild(food.element);
         }
       });
     };
@@ -602,7 +582,14 @@ export default function Hero() {
         </p>
         
         <h1 ref={titleRef} className={styles.heroTitle}>
-          Crystal Lagoon. <br /> Silent Life.
+          <div style={{ display: "block" }}>
+            <span style={{ display: "inline-block", whiteSpace: "nowrap" }}>Crystal&nbsp;</span>
+            <span style={{ display: "inline-block", whiteSpace: "nowrap" }}>Lagoon.</span>
+          </div>
+          <div style={{ display: "block" }}>
+            <span style={{ display: "inline-block", whiteSpace: "nowrap" }}>Silent&nbsp;</span>
+            <span style={{ display: "inline-block", whiteSpace: "nowrap" }}>Life.</span>
+          </div>
         </h1>
 
         <p ref={descRef} className={styles.heroDescription}>
